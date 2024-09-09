@@ -1,0 +1,42 @@
+alias: Going to Sleep
+description: Going to sleep
+trigger:
+  - platform: state
+    entity_id:
+      - input_select.sleep_status
+    from: Awake
+    to: Wind Down Begins
+condition: []
+action:
+  - action: media_player.volume_set
+    metadata: {}
+    data:
+      volume_level: 0.04
+    target:
+      device_id: 1b607175a2e761e1ff1b5038b3dd379d
+  - action: media_player.select_source
+    data:
+      source: media_player.sonos_bedroom
+    target:
+      device_id: 1b607175a2e761e1ff1b5038b3dd379d
+  - action: media_player.play_media
+    metadata: {}
+    data:
+      media_content_id: spotify:playlist:0DH7ZcG0SZ5jEal9i7OtPj
+      media_content_type: playlist
+      enqueue: play
+    target:
+      device_id: 1b607175a2e761e1ff1b5038b3dd379d
+  - delay:
+      hours: 2
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+    enabled: true
+  - action: media_player.media_stop
+    metadata: {}
+    data: {}
+    target:
+      device_id: 1b607175a2e761e1ff1b5038b3dd379d
+    enabled: true
+mode: single

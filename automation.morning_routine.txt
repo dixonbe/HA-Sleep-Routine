@@ -1,0 +1,46 @@
+alias: morning_routine
+description: tiggers on/off
+trigger:
+  - platform: state
+    entity_id:
+      - input_select.sleep_status
+    from: Bedtime Begins
+    to: Waking Up
+condition: []
+action:
+  - if:
+      - condition: and
+        conditions:
+          - condition: device
+            device_id: c3affc4fa09bc3bca3d2819cb39136f2
+            domain: device_tracker
+            entity_id: 31a99654ee902449b421634555602f80
+            type: is_home
+          - condition: state
+            entity_id: switch.plug_2
+            state: "off"
+    then:
+      - data: {}
+        target:
+          entity_id: switch.plug_2
+        action: switch.turn_on
+      - delay:
+          hours: 0
+          minutes: 26
+          seconds: 55
+          milliseconds: 0
+      - data: {}
+        target:
+          entity_id: switch.plug_2
+        action: switch.turn_off
+      - if:
+          - condition: state
+            entity_id: input_select.sleep_status
+            state: Waking Up
+        then:
+          - data:
+              option: Bedtime Begins
+            target:
+              entity_id: input_select.sleep_status
+            action: input_select.select_option
+mode: single
